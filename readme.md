@@ -40,7 +40,7 @@ Since all the data in the datasets is fake and this is just an exercise, one can
 
 Run app with command:
 ```python
-python app.py [-h] [-c COUNTRY] first_ds second_ds
+python main.py [-h] [-c COUNTRY] first_ds second_ds
 ```
 
 App is reciving arguments in command line.
