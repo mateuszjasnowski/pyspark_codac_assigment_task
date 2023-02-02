@@ -12,7 +12,7 @@ from app.data import Data
 from app.cm_app_session import AppSession
 
 
-def main(first_dataset: str, second_dataset: str, country=list) -> None:
+def main(first_dataset: str, second_dataset: str, country: list = None) -> None:
     """App inizialization and performing actions"""
     LOGGER.debug("%s %s %s", first_dataset, second_dataset, country)
 
