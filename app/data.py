@@ -31,16 +31,25 @@ class Data():
             len(self.data.columns)
         )
 
-    #def country_filter(self, counties: list) -> None:
+    def filter(self, column: str, counties: list) -> None:
         """Filter DataFrame by country"""
-    #    for country in counties:
-    #        self.data = self.data.filter(
-    #            self.data.country == country
-    #            )
-    #    LOGGER.info("Filterring DataFrame %s by country - ")
 
+        self.data = self.data.filter(
+            self.data[column].isin(*counties)
+        )
+        LOGGER.info(
+            "Filterring DataFrame %s by column %s == %s",
+            self.data_frame_name,
+            column,
+            str(counties)
+            )
 
+    def drop_column(self, columns: list) -> None:
+        """Dropping selected columns from DataFrame"""
 
-#self.data = self.data.filter(self.data.country == "#filter")
-
-#.drop("first_name", "last_name")
+        self.data = self.data.drop(*columns)
+        LOGGER.info(
+            "Dropping columns %s from DataFrame %s",
+            str(columns),
+            self.data_frame_name
+        )
