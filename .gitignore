@@ -3,3 +3,4 @@ venv_win/
 source_data/
 */__pycache__/
 logs/
+test.py

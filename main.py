@@ -7,20 +7,19 @@ github: github.com/mateuszjasnowski/pyspark_codac_assigment_task
 """
 from argparse import ArgumentParser
 
-from app import LOGGER, AppSession
+from app import LOGGER
 from app.data import Data
+from app.cm_app_session import AppSession
 
 
 def main(first_dataset: str, second_dataset: str, country=list) -> None:
     """App inizialization and performing actions"""
     LOGGER.debug("%s %s %s", first_dataset, second_dataset, country)
 
-    app = AppSession()
+    with AppSession() as sp_session:
+        first_file = Data(sp_session, first_dataset).data
+        print(first_file.show())
 
-    first_file = Data(app.sp_session, first_dataset).data
-    print(first_file.show())
-
-    app.exit()
 
 if __name__ == "__main__":
     # Start program if package have been called directly
