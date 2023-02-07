@@ -6,17 +6,12 @@ from . import LOGGER
 class AppSession:
     """AppSession class"""
 
-    def __init__(self, app_name: str = "CodacApp", env_var: bool = True, master: str = None) -> None:
+    def __init__(self, app_name: str = "CodacApp", master: str = None) -> None:
         """Inizialize app, create session"""
         self.app_name = app_name
         self.sp_session = None
 
-        if not env_var and not master:
-            raise ValueError("Missing Spark master address argument when env_var = False")
-        if env_var:
-            self.master = os.environ.get('SPARK_MASTER')
-        else:
-            self.master = master
+        self.master = master
 
     def __enter__(self) -> SparkSession:
         """Enter to AppSession context manager"""

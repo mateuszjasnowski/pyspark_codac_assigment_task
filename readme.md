@@ -40,7 +40,7 @@ Since all the data in the datasets is fake and this is just an exercise, one can
 
 Run app with command:
 ```python
-python main.py [-h] [-c COUNTRY] first_ds second_ds
+python main.py [-h] [-c COUNTRY] [-m MASTER] first_ds second_ds
 ```
 
 App is reciving arguments in command line.
@@ -55,6 +55,7 @@ second_ds | string | Path to second data set file
 Argument name | Type | Description
 --- | --- | ---
 -c (--country) | string | Filtering data by given country (Can be multiple times)
+-m (--master) | string | Spark session's master address
 -h (--help) | empty | Display help menu
 
 ## Placeholder
