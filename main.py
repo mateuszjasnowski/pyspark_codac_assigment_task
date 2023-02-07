@@ -22,19 +22,19 @@ def main(first_dataset: str, second_dataset: str, country: list = None) -> None:
             dataframe.filter("country", country)
 
         dataframe.join_data(second_dataset)
-        dataframe.drop_column((
-            "first_name",
-            "last_name",
-            "cc_n"))
+        dataframe.drop_column(("first_name", "last_name", "cc_n"))
 
-        dataframe.rename_columns([
-            'client_identifier',
-            'email',
-            'country',
-            'bitcoin_address',
-            'credit_card_type'
-            ])
+        dataframe.rename_columns(
+            [
+                "client_identifier",
+                "email",
+                "country",
+                "bitcoin_address",
+                "credit_card_type",
+            ]
+        )
         dataframe.save()
+
 
 if __name__ == "__main__":
     # Start program if package have been called directly
