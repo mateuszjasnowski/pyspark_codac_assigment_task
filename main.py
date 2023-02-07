@@ -16,7 +16,7 @@ def main(first_dataset: str, second_dataset: str, country: list = None) -> None:
     """App inizialization and performing actions"""
     LOGGER.debug("%s %s %s", first_dataset, second_dataset, country)
 
-    with AppSession() as sp_session:
+    with AppSession(env_var=False, master="local") as sp_session:
         dataframe = Data(sp_session, first_dataset)
         if country:
             dataframe.filter("country", country)
