@@ -2,6 +2,7 @@
 import os
 
 from pyspark.sql import SparkSession
+from pyspark.sql.utils import IllegalArgumentException
 
 from app import LOGGER
 
@@ -81,16 +82,20 @@ class Data():
 
         current_columns = self.data.columns
 
-        if len(current_columns) == len(new_columns): #TODO other scenario
+        try:
             self.data = self.data.toDF(*new_columns)
             LOGGER.info(
                 "Renaming %d columns (%s) to (%s)",
                 len(new_columns),
                 str(current_columns),
-                type(new_columns)
+                new_columns
                 )
+        except IllegalArgumentException as error:
+            LOGGER.warning("%s", error)
 
-    def save(self) -> None: #TODO add filename if nedded
+    def save(self) -> None:
         """Save DataFrame into new file"""
+        master_path = os.path.abspath(os.getcwd())
 
-        print(self.data.show())
+        self.data.write.csv(f"file://{master_path}/client_data/", mode='overwrite')
+        LOGGER.info("Writing DataFrame to file at ./client_data/")
