@@ -1,6 +1,7 @@
 venv/
 venv_win/
 source_data/
+client_data/
 */__pycache__/
 logs/
 *.ipynb
