@@ -1,7 +1,7 @@
 """AppSession module"""
-import os
 from pyspark.sql.session import SparkSession
 from . import LOGGER
+
 
 class AppSession:
     """AppSession class"""
@@ -15,9 +15,11 @@ class AppSession:
 
     def __enter__(self) -> SparkSession:
         """Enter to AppSession context manager"""
-        self.sp_session = SparkSession.builder.master(
-            self.master
-            ).appName(self.app_name).getOrCreate()
+        self.sp_session = (
+            SparkSession.builder.master(self.master)
+            .appName(self.app_name)
+            .getOrCreate()
+        )
         LOGGER.info("Starting app session names %s", self.app_name)
 
         return self.sp_session

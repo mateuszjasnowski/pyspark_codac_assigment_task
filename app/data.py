@@ -84,5 +84,7 @@ class Data:
         """Save DataFrame into new file"""
         master_path = os.path.abspath(os.getcwd())
 
-        self.data.write.csv(f"file://{master_path}/client_data/", mode="overwrite", header=True)
+        self.data.write.csv(
+            f"file://{master_path}/client_data/", mode="overwrite", header=True
+        )
         LOGGER.info("Writing DataFrame to file at ./client_data/")
