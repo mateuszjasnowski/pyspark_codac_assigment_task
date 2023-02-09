@@ -68,7 +68,8 @@ if __name__ == "__main__":
 
     # replacing master address if in app args
     if not master and not args.master:
-        LOGGER.error("Cannot get env_var for SPARK_MASTER, nor given master argument")
+        LOGGER.fatal("Cannot get env_var for SPARK_MASTER, nor given master argument")
+        LOGGER.info("====================EOL====================")
         raise EnvironmentError(
             "Cannot get env_var for SPARK_MASTER, nor given master argument"
         )
