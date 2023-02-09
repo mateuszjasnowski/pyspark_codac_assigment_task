@@ -27,15 +27,15 @@ class Data:
             len(self.data.columns),
         )
 
-    def filter(self, column: str, counties: list) -> None:
-        """Filter DataFrame by country"""
+    def filter(self, column: str, match: list) -> None:
+        """Filter DataFrame by column match to given value"""
 
-        self.data = self.data.filter(self.data[column].isin(*counties))
+        self.data = self.data.filter(self.data[column].isin(*match))
         LOGGER.info(
             "Filterring DataFrame %s by column %s == %s",
             self.data_frame_name,
             column,
-            str(counties),
+            str(match),
         )
 
     def drop_column(self, columns: list) -> None:

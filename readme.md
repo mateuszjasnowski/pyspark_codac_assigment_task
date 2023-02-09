@@ -36,6 +36,26 @@ Since all the data in the datasets is fake and this is just an exercise, one can
 ## App setup
 **TO DO**
 
+**Config file**
+
+App can be configured by editing ```app_config.json```
+
+File's content:
+```json
+{
+    "columns_to_drop": [
+        # Names of columns to be dropped form joined data set
+        # Usefull if source data sets contains secret data
+    ],
+    "expected_column_names": [
+        # Names of columns in output data set
+        # IMPORTANT ! Give the same amount of columns as
+        # will exists in output file
+    ]
+}
+```
+
+
 ## App run
 
 Run app with command:

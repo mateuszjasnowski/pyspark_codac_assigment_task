@@ -3,6 +3,7 @@ App initial file
 """
 import logging
 import os
+import json
 
 from logging.handlers import RotatingFileHandler
 
@@ -20,3 +21,7 @@ log_size_rotating_handler = RotatingFileHandler(
 log_size_rotating_handler.setFormatter(_log_formatter)
 
 LOGGER.addHandler(log_size_rotating_handler)
+
+# Reading app_config file
+with open("../app_config.json", 'r', encoding='utf-8') as config_file:
+    APP_CONFIG = json.load(config_file)

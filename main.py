@@ -8,7 +8,7 @@ github: github.com/mateuszjasnowski/pyspark_codac_assigment_task
 from argparse import ArgumentParser
 import os
 
-from app import LOGGER
+from app import LOGGER, APP_CONFIG
 from app.data import Data
 from app.cm_app_session import AppSession
 
@@ -28,22 +28,13 @@ def main(
             dataframe.filter("country", country)
 
         dataframe.join_data(second_dataset)
-        dataframe.drop_column(("first_name", "last_name", "cc_n"))
+        dataframe.drop_column(APP_CONFIG['columns_to_drop'])
 
-        dataframe.rename_columns(
-            [
-                "client_identifier",
-                "email",
-                "country",
-                "bitcoin_address",
-                "credit_card_type",
-            ]
-        )
+        dataframe.rename_columns(APP_CONFIG["expected_column_names"])
         dataframe.save()
 
-
 if __name__ == "__main__":
-    # Start program if package have been called directly
+    # Starts program if package have been called directly
     # Catch given args and execute main().
     # Required args:
     # first_ds: str
@@ -53,6 +44,7 @@ if __name__ == "__main__":
     # -m, --master: str
     # -h, --help: None
 
+    #catching cmd arguments
     parser = ArgumentParser()
     parser.add_argument("first_ds", type=str, help="Path to first dataset")
     parser.add_argument("second_ds", type=str, help="Path to second dataset")
@@ -70,8 +62,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    #catching master's address in env_var
     master = os.environ.get("SPARK_MASTER")
 
+    #replacing master address if in app args
     if not master and not args.master:
         LOGGER.error("Cannot get env_var for SPARK_MASTER, nor given master argument")
         raise EnvironmentError(
@@ -83,6 +77,7 @@ if __name__ == "__main__":
 
     LOGGER.info("Recived %s arguments: %s", len(args.__dict__), args.__dict__)
 
+    #calling app with given args
     if args.country:
         main(args.first_ds, args.second_ds, args.country, master_session=master)
     else:
