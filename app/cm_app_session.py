@@ -26,7 +26,8 @@ class AppSession:
 
     def __exit__(self, exit_type, value, traceback) -> None:
         """Terminate app's session"""
-        LOGGER.debug("Type: %s, Val: %s, Traceb: %s", exit_type, value, traceback)
+        if exit_type or value or traceback:
+            LOGGER.critical("Type: %s, Val: %s, Traceb: %s", exit_type, value, traceback)
 
         LOGGER.info("Stopping app's session")
         self.sp_session.stop()
