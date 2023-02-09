@@ -23,5 +23,7 @@ log_size_rotating_handler.setFormatter(_log_formatter)
 LOGGER.addHandler(log_size_rotating_handler)
 
 # Reading app_config file
-with open("../app_config.json", "r", encoding="utf-8") as config_file:
+with open(
+    os.path.dirname(__file__) + "/../app_config.json", "r", encoding="utf-8"
+) as config_file:
     APP_CONFIG = json.load(config_file)
