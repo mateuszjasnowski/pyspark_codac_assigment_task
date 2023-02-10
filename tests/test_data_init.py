@@ -6,7 +6,7 @@ from tests import SPARK
 from app.data import Data
 
 class TestDataInit():
-    """ Testing class to test Data module """
+    """ Testing class to test Data.__init__ method """
 
     def test_data_init_correct_scenario(self):
         """
