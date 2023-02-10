@@ -24,10 +24,10 @@ Since all the data in the datasets is fake and this is just an exercise, one can
 
 - [x] Output files should be located in a **client_data** directory in the root directory of the project.
 - [x] Application should receive three arguments, the paths to each of the dataset files and also the countries to filter as the client wants to reuse the code for other countries.
-- [ ] Generic functions for filtering data and renaming.
-*(Recommendation: Use the following package for Spark tests - https://github.com/MrPowers/chispa)*
+- [x] Generic functions for filtering data and renaming.
 - [x] App create **logs**.
-- [ ] App allows for filtering data and renaming.
+- [x] App allows for filtering data and renaming.
+- [ ] Testing implementing chispa package *https://github.com/MrPowers/chispa)*
 - [ ] *(Optional)* Automated build pipeline. [^1]
 - [x] *(Optional)* Log to a file with a rotating policy. [^1]
 - [ ] *(Optional)* Code should be able to be packaged into a source distribution file. [^1]
