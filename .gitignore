@@ -6,3 +6,4 @@ client_data/
 logs/
 *.ipynb
 .vscode/
+*.log
