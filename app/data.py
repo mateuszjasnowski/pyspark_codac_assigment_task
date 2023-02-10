@@ -92,5 +92,5 @@ class Data:
         except IllegalArgumentException as error:
             LOGGER.fatal(
                 "Cannot write DataFrame to file. Reason: %s",
-                f"{error.desc[:100]} [...]"
+                f"{error.desc[:100]} [...]",
             )
