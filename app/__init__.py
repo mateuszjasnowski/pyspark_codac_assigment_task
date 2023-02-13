@@ -16,7 +16,7 @@ _LOG_PATH = "./logs/codac_assigment_log.log"
 os.makedirs(os.path.dirname(_LOG_PATH), exist_ok=True)
 
 log_size_rotating_handler = RotatingFileHandler(
-    filename=_LOG_PATH, mode="a", maxBytes=100000, backupCount=5
+    filename=_LOG_PATH, mode="a", maxBytes=50000, backupCount=5
 )
 log_size_rotating_handler.setFormatter(_log_formatter)
 

@@ -2,3 +2,5 @@ pip >= 23.0
 pyspark
 black
 pylint
+pytest
+chispa
