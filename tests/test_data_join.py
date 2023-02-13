@@ -4,7 +4,7 @@ import chispa
 from tests import SPARK
 from app.data import Data
 
-class TestDataInit():
+class TestDataJoinData():
     """ Testing class to test Data.join_data() method """
 
     def test_data_join_correct_join_order(self):
