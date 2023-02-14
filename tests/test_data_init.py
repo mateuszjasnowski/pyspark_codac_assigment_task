@@ -9,18 +9,21 @@ from app.data import Data
 class TestDataInit:
     """Testing class to test Data.__init__ method"""
 
-    def test_data_init_correct_scenario(self):
+    @pytest.fixture()
+    def dataset_object(self):
+        """Creating Data object avalible for class's methods"""
+        return Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
+
+    def test_data_init_correct_scenario(self, dataset_object):
         """
         Testing __init__ method
         creating Data with correct values
         """
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
+        columns = dataset_object.data.columns
 
-        columns = test_object.data.columns
-
-        assert test_object.data_frame_name == "dataset_one.csv"
-        assert test_object.data.count() == 240
+        assert dataset_object.data_frame_name == "dataset_one.csv"
+        assert dataset_object.data.count() == 240
         assert len(columns) == 5
         assert columns == ["id", "first_name", "last_name", "email", "country"]
 

@@ -10,70 +10,70 @@ from app.data import Data
 class TestDataFilter:
     """Testing class to test Data.filter() method"""
 
-    def test_data_filter_one_country(self):
+    @pytest.fixture()
+    def dataset_object(self):
+        """Creating Data object avalible for class's methods"""
+        return Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
+
+    def test_data_filter_one_country(self, dataset_object):
         """Testing .filter() method by filtering by one country"""
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
-        test_object.filter("country", ["Netherlands"])
+        dataset_object.filter("country", ["Netherlands"])
 
         expected_result = SPARK.read.option("header", "true").csv(
             "./tests/test_set/test_filter_result_1.csv"
         )
 
-        chispa.assert_df_equality(test_object.data, expected_result)
+        chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_more_countries(self):
+    def test_data_filter_more_countries(self, dataset_object):
         """Testing .filter() method by filtering by more than one country"""
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
-        test_object.filter("country", ["Netherlands", "United States"])
+        dataset_object.filter("country", ["Netherlands", "United States"])
 
         expected_result = SPARK.read.option("header", "true").csv(
             "./tests/test_set/test_filter_result_2.csv"
         )
 
-        chispa.assert_df_equality(test_object.data, expected_result)
+        chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_empty_result(self):
+    def test_data_filter_empty_result(self, dataset_object):
         """Testing .filter() method by filtering by country not existing in data"""
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
-        test_object.filter("country", ["Poland"])
+        dataset_object.filter("country", ["Poland"])
 
         expected_result = SPARK.read.option("header", "true").csv(
             "./tests/test_set/test_filter_result_3.csv"
         )
 
-        chispa.assert_df_equality(test_object.data, expected_result)
+        chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_empty_result_with_one(self):
+    def test_data_filter_empty_result_with_one(self, dataset_object):
         """
         Testing .filter() method by filtering by country not existing in data
         and addtional existing one
         """
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
-        test_object.filter("country", ["Poland", "Netherlands"])
+        dataset_object.filter("country", ["Poland", "Netherlands"])
 
         expected_result = SPARK.read.option("header", "true").csv(
             "./tests/test_set/test_filter_result_1.csv"
         )
 
-        chispa.assert_df_equality(test_object.data, expected_result)
+        chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_id_column_filter(self):
+    def test_data_filter_id_column_filter(self, dataset_object):
         """Testing .filter() method by filtering by id"""
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
-        test_object.filter("id", ["3", "150", "200"])
+        dataset_object.filter("id", ["3", "150", "200"])
 
         expected_result = SPARK.read.option("header", "true").csv(
             "./tests/test_set/test_filter_result_4.csv"
         )
 
-        chispa.assert_df_equality(test_object.data, expected_result)
+        chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_name(self):
+    def test_data_filter_name(self, dataset_object):
         """Testin .filter() method by filtering by first_name"""
 
         expected_data = [
@@ -84,14 +84,12 @@ class TestDataFilter:
             expected_data, ["id", "first_name", "last_name", "email", "country"]
         )
 
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
-        test_object.filter("first_name", ["Holly-anne", "Callie"])
+        dataset_object.filter("first_name", ["Holly-anne", "Callie"])
 
-        chispa.assert_df_equality(test_object.data, expected_result)
+        chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_not_existing_column(self):
+    def test_data_filter_not_existing_column(self, dataset_object):
         """Testin .filter() method by filtering by not existing column name"""
-        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
 
         with pytest.raises(AnalysisException):
-            test_object.filter("name", ["Holly-anne", "Callie"])
+            dataset_object.filter("name", ["Holly-anne", "Callie"])
