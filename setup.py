@@ -1,5 +1,8 @@
 """ Setup file for codac_app """
-from setuptools import setup, find_packages
+from setuptools import setup
+
+with open("requirements.txt", mode='r', encoding='utf-8') as requirements:
+    requirements.readlines()
 
 setup(
     name="CodacApp",
@@ -11,4 +14,5 @@ setup(
     entry_points = {
         'console_scripts': ['codac-app=codac_app.__main__:app_start'],
     }
+    #TODO setup.py need to install requirements
 )
