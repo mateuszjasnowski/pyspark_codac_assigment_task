@@ -4,7 +4,7 @@ import os
 from pyspark.sql import SparkSession
 from pyspark.sql.utils import IllegalArgumentException
 
-from app import LOGGER
+from codac_app.app import LOGGER
 
 
 class Data:

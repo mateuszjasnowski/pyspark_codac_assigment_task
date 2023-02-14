@@ -2,8 +2,8 @@
 import chispa
 import pytest
 
-from tests import SPARK
-from app.data import Data
+from . import SPARK
+from codac_app.app.data import Data
 
 
 class TestDataDropColumn:
@@ -12,7 +12,7 @@ class TestDataDropColumn:
     @pytest.fixture()
     def dataset_object(self):
         """Creating Data object avalible for class's methods"""
-        return Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
+        return Data(SPARK, "./codac_app/tests/test_set/dataset_one.csv", header=True)
 
     def test_data_drop_single_column(self, dataset_object):
         """Testing Data.drop_column() dropping single column"""
@@ -20,7 +20,7 @@ class TestDataDropColumn:
         dataset_object.drop_column(["last_name"])
 
         expected_result = SPARK.read.option("header", "true").csv(
-            "./tests/test_set/test_drop_result_1.csv"
+            "./codac_app/tests/test_set/test_drop_result_1.csv"
         )
 
         chispa.assert_df_equality(dataset_object.data, expected_result)
@@ -34,7 +34,7 @@ class TestDataDropColumn:
         dataset_object.drop_column(["no_column", "last_name"])
 
         expected_result = SPARK.read.option("header", "true").csv(
-            "./tests/test_set/test_drop_result_1.csv"
+            "./codac_app/tests/test_set/test_drop_result_1.csv"
         )
 
         chispa.assert_df_equality(dataset_object.data, expected_result)
@@ -45,7 +45,7 @@ class TestDataDropColumn:
         dataset_object.drop_column(["last_name", "first_name"])
 
         expected_result = SPARK.read.option("header", "true").csv(
-            "./tests/test_set/test_drop_result_2.csv"
+            "./codac_app/tests/test_set/test_drop_result_2.csv"
         )
 
         chispa.assert_df_equality(dataset_object.data, expected_result)
