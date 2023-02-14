@@ -28,7 +28,7 @@ Since all the data in the datasets is fake and this is just an exercise, one can
 - [x] App create **logs**.
 - [x] App allows for filtering data and renaming.
 - [x] Testing implementing chispa package *https://github.com/MrPowers/chispa)*
-- [ ] *(Optional)* Automated build pipeline. [^1]
+- [x] *(Optional)* Automated build pipeline. [^1]
 - [x] *(Optional)* Log to a file with a rotating policy. [^1]
 - [ ] *(Optional)* Code should be able to be packaged into a source distribution file. [^1]
 
