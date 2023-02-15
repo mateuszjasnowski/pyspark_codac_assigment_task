@@ -8,7 +8,7 @@ setup(
     name="CodacApp",
     author="Mateusz Jasnowski",
     author_email="mateusz.jasnowski@capgemini.com",
-    version="0.2.0",
+    version="0.3.0",
     description="PySpark application as upskilling task",
     packages=['codac_app','codac_app.app'],
     install_requires = requirements,
