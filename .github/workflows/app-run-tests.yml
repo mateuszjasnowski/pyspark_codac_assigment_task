@@ -5,9 +5,11 @@ name: Codac app run unit tests
 
 on:
   push:
-    branches: - '!main'
-  pull_request
-    branches: - '!main'
+    branches: 
+      - '!main'
+  pull_request:
+    branches:
+      - '!main'
 
 permissions:
   contents: read
