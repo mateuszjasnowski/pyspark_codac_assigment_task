@@ -23,16 +23,12 @@ log_size_rotating_handler.setFormatter(_log_formatter)
 LOGGER.addHandler(log_size_rotating_handler)
 
 APP_CONFIG = {
-    "columns_to_drop": [
-        "first_name",
-        "last_name",
-        "cc_n"
-    ],
+    "columns_to_drop": ["first_name", "last_name", "cc_n"],
     "expected_column_names": [
         "client_identifier",
         "email",
         "country",
         "bitcoin_address",
-        "credit_card_type"
-    ]
+        "credit_card_type",
+    ],
 }
