@@ -2,8 +2,8 @@
 import pytest
 from pyspark.sql.utils import AnalysisException
 
-from . import SPARK
 from codac_app.app.data import Data
+from . import SPARK
 
 
 class TestDataInit:
@@ -12,7 +12,7 @@ class TestDataInit:
     @pytest.fixture()
     def dataset_object(self):
         """Creating Data object avalible for class's methods"""
-        return Data(SPARK, "./codac_app/tests/test_set/dataset_one.csv", header=True)
+        return Data(SPARK, "./tests/test_set/dataset_one.csv", header=True)
 
     def test_data_init_correct_scenario(self, dataset_object):
         """
@@ -33,7 +33,7 @@ class TestDataInit:
         creating Data with correct values without reading file's header
         """
 
-        test_object = Data(SPARK, "./codac_app/tests/test_set/dataset_one.csv", header=False)
+        test_object = Data(SPARK, "./tests/test_set/dataset_one.csv", header=False)
 
         columns = test_object.data.columns
 
@@ -46,4 +46,4 @@ class TestDataInit:
         """Testing __init__ behaviour if given not existing file"""
 
         with pytest.raises(AnalysisException):
-            Data(SPARK, "./codac_app/tests/test_set/dataset_one2.csv", header=False)
+            Data(SPARK, "./tests/test_set/dataset_one2.csv", header=False)

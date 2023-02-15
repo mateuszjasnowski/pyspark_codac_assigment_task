@@ -4,10 +4,8 @@
 name: Codac app build app
 
 on:
-  push:
-    branches: [ "main", "master" ]
-  pull_request:
-    branches: [ "main", "master" ]
+  - push
+  - pull_request
 
 permissions:
   contents: read
@@ -36,7 +34,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest ./codac_app/tests/
+        pytest tests/
     - name: Build distribution package
       run: |
         python setup.py bdist_wheel
@@ -45,4 +43,3 @@ jobs:
       with:
         name: codac_app
         path: ./dist/CodacApp*
-

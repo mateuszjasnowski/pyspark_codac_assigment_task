@@ -2,8 +2,8 @@
 import chispa
 import pytest
 
-from . import SPARK
 from codac_app.app.data import Data
+from . import SPARK
 
 
 class TestDataDropColumn:
