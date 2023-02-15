@@ -12,6 +12,7 @@ from codac_app.app import LOGGER, APP_CONFIG
 from codac_app.app.data import Data
 from codac_app.app.cm_app_session import AppSession
 
+
 def main(
     first_dataset: str,
     second_dataset: str,
@@ -31,6 +32,7 @@ def main(
 
         dataframe.rename_columns(APP_CONFIG["expected_column_names"])
         dataframe.save()
+
 
 def app_start():
     """
@@ -83,6 +85,7 @@ def app_start():
         main(args.first_ds, args.second_ds, args.country, master_session=master)
     else:
         main(args.first_ds, args.second_ds, master_session=master)
+
 
 if __name__ == "__main__":
     # Starts program if package have been called directly

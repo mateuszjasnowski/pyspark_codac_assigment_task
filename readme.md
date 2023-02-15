@@ -30,39 +30,27 @@ Since all the data in the datasets is fake and this is just an exercise, one can
 - [x] Testing implementing chispa package *https://github.com/MrPowers/chispa)*
 - [x] *(Optional)* Automated build pipeline. [^1]
 - [x] *(Optional)* Log to a file with a rotating policy. [^1]
-- [ ] *(Optional)* Code should be able to be packaged into a source distribution file. [^1]
+- [x] *(Optional)* Code should be able to be packaged into a source distribution file. [^1]
 
 [^1]: Addtional requriment not fully need to be fullfilled
 ---
 # Application
-## App setup
-**TO DO**
 
-**Config file**
+## Setup and run
 
-App can be configured by editing ```app_config.json```
-
-File's content:
-```json
-{
-    "columns_to_drop": [
-        # Names of columns to be dropped form joined data set
-        # Usefull if source data sets contains secret data
-    ],
-    "expected_column_names": [
-        # Names of columns in output data set
-        # IMPORTANT ! Give the same amount of columns as
-        # will exists in output file
-    ]
-}
+Manual package build
+```python
+python setup.py bdist_wheel
 ```
 
-
-## App run
+Install downloaded or builded .whl package
+```python
+pip install CodacApp-[...].whl
+```
 
 Run app with command:
 ```python
-python main.py [-h] [-c COUNTRY] [-m MASTER] first_ds second_ds
+codac-app [-h] [-c COUNTRY] [-m MASTER] first_ds second_ds
 ```
 
 App is reciving arguments in command line.
@@ -82,9 +70,9 @@ Argument name | Type | Description
 
 **Data set files**
 
-Application is reciving two ```csv``` files with specific schema.
+Application is reciving two ```.csv``` files with specific schema.
 
-***First dataset***
+***1. First dataset***
 column name | data type | description
 --- | --- | ---
 id | integer | identification number of client
@@ -93,15 +81,17 @@ last_name | string | last name of client
 email | string | client's email
 country | string | client's country
 
-***Second dataset***
+***2. Second dataset***
 column name | data type | description
 --- | --- | ---
-id | integr | identification number of client
+id | integer | identification number of client
 btc_a | string | bitcoin address
 cc_t | string | credit card type
 cc_n | string | credit card number
 
-## Placeholder
+## Output
 
-**TO DO**
-
+Application is processing given data sets and output file at location ```./client_data/``` with following schema (at default):
+client_identifier | email | country | bitcoin_address | credit_card_type
+--- | --- | --- | --- | ---
+integer | string | string | string | string
