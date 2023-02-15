@@ -1,11 +1,13 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Python application
+name: Codac app build app
 
 on:
-  - push
-  - pull_request
+  push:
+    branches: - 'main'
+  pull_request
+    branches: - 'main'
 
 permissions:
   contents: read
@@ -35,3 +37,12 @@ jobs:
     - name: Test with pytest
       run: |
         pytest ./codac_app/tests/
+    - name: Build distribution package
+      run: |
+        python setup.py bdist_wheel
+    - name: Download distribution package
+      uses: actions/upload-artifact@v3
+      with:
+        name: codac_app
+        path: ./dist/CodacApp*
+
