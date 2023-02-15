@@ -8,10 +8,9 @@ github: github.com/mateuszjasnowski/pyspark_codac_assigment_task
 from argparse import ArgumentParser
 import os
 
-from app import LOGGER, APP_CONFIG
-from app.data import Data
-from app.cm_app_session import AppSession
-
+from codac_app.app import LOGGER, APP_CONFIG
+from codac_app.app.data import Data
+from codac_app.app.cm_app_session import AppSession
 
 def main(
     first_dataset: str,
@@ -33,17 +32,17 @@ def main(
         dataframe.rename_columns(APP_CONFIG["expected_column_names"])
         dataframe.save()
 
-
-if __name__ == "__main__":
-    # Starts program if package have been called directly
-    # Catch given args and execute main().
-    # Required args:
-    # first_ds: str
-    # second_ds: str
-    # Optional args:
-    # -c, --country: str
-    # -m, --master: str
-    # -h, --help: None
+def app_start():
+    """
+    Catch given args and execute main().
+    Required args:
+    first_ds: str
+    second_ds: str
+    Optional args:
+    -c, --country: str
+    -m, --master: str
+    -h, --help: None
+    """
 
     # catching cmd arguments
     parser = ArgumentParser()
@@ -84,3 +83,7 @@ if __name__ == "__main__":
         main(args.first_ds, args.second_ds, args.country, master_session=master)
     else:
         main(args.first_ds, args.second_ds, master_session=master)
+
+if __name__ == "__main__":
+    # Starts program if package have been called directly
+    app_start()
