@@ -2,7 +2,6 @@
 import chispa
 import pytest
 from pyspark.sql import SparkSession
-from pyspark.sql.utils import AnalysisException
 
 from codac_app.app.data import Data
 
@@ -103,8 +102,16 @@ class TestDataFilter:
 
         chispa.assert_df_equality(dataset_object.data, expected_result)
 
-    def test_data_filter_not_existing_column(self, dataset_object: Data) -> None:
+    def test_data_filter_not_existing_column(
+        self,
+        dataset_object: Data,
+        spark: SparkSession) -> None:
         """Testin .filter() method by filtering by not existing column name"""
 
-        with pytest.raises(AnalysisException):
-            dataset_object.filter("name", ["Holly-anne", "Callie"])
+        dataset_object.filter("name", ["Holly-anne", "Callie"])
+
+        expected_result = spark.read.option("header", "true").csv(
+            "./tests/test_set/dataset_one.csv"
+        )
+
+        chispa.assert_df_equality(dataset_object.data, expected_result)
