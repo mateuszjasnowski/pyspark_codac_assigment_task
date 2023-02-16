@@ -4,7 +4,7 @@ import os
 from pyspark.sql import SparkSession
 from pyspark.sql.utils import IllegalArgumentException
 
-from codac_app.app import LOGGER
+from . import LOGGER
 
 
 class Data:
@@ -30,13 +30,14 @@ class Data:
     def filter(self, column: str, match: list) -> None:
         """Filter DataFrame by column match to given value"""
 
-        self.data = self.data.filter(self.data[column].isin(*match))
-        LOGGER.info(
-            "Filterring DataFrame %s by column %s == %s",
-            self.data_frame_name,
-            column,
-            str(match),
-        )
+        if column in self.data.columns:
+            self.data = self.data.filter(self.data[column].isin(*match))
+            LOGGER.info(
+                "Filterring DataFrame %s by column %s == %s",
+                self.data_frame_name,
+                column,
+                str(match),
+            )
 
     def drop_column(self, columns: list) -> None:
         """Dropping selected columns from DataFrame"""
@@ -64,8 +65,20 @@ class Data:
             second_pk,
         )
 
+    def rename(self, old_col: str, new_col: str) -> None:
+        """Rename column if exists in DataFrame"""
+
+        if old_col in self.data.columns:
+            columns = self.data.columns
+            columns[columns.index(old_col)] = new_col
+
+            self.data = self.data.toDF(*columns)
+            LOGGER.info(
+                "Renaming column %s to %s in %s", old_col, new_col, self.data_frame_name
+            )
+
     def rename_columns(self, new_columns: list) -> None:
-        """Change name of columns on DataFrame"""
+        """Change name of all columns on DataFrame"""
 
         current_columns = self.data.columns
 
@@ -80,17 +93,26 @@ class Data:
         except IllegalArgumentException as error:
             LOGGER.warning("%s", error)
 
-    def save(self) -> None:
-        """Save DataFrame into new file"""
+    def save(
+        self, file_format: str, path: str = "./client_data/", header: str = "true"
+    ) -> None:
+        """
+        Save DataFrame into new file
+        Format can be given as csv, parquet
+        #TODO refactor to use more variables
+        """
         master_path = os.path.abspath(os.getcwd())
 
-        try:
-            self.data.write.csv(
-                f"file://{master_path}/client_data/", mode="overwrite", header=True
-            )
-            LOGGER.info("Writing DataFrame to file at ./client_data/")
-        except IllegalArgumentException as error:
-            LOGGER.fatal(
-                "Cannot write DataFrame to file. Reason: %s",
-                f"{error.desc[:100]} [...]",
-            )
+        header = header.lower() == "true"
+
+        if file_format == "csv":
+            try:
+                self.data.write.csv(
+                    f"file://{master_path}/{path}", mode="overwrite", header=header
+                )
+                LOGGER.info("Writing DataFrame to file at ./client_data/")
+            except IllegalArgumentException as error:
+                LOGGER.fatal(
+                    "Cannot write DataFrame to file. Reason: %s",
+                    f"{error.desc[:100]} [...]",
+                )
