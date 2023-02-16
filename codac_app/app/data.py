@@ -1,7 +1,7 @@
 """Data module"""
 import os
 
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.utils import IllegalArgumentException
 
 from . import LOGGER
@@ -48,18 +48,20 @@ class Data:
         )
 
     def join_data(
-        self, join_dataset_path: str, first_pk: str = "id", second_pk: str = "id"
+        self,
+        join_dataset: DataFrame,
+        join_dataset_name: str,
+        first_pk: str,
+        second_pk: str,
     ) -> None:
         """Join second DataFrame, method returns new Data object"""
 
-        dataset_to_join = Data(self.session, join_dataset_path)
-
         self.data = self.data.join(
-            dataset_to_join.data, self.data[first_pk] == dataset_to_join.data[second_pk]
-        ).drop(dataset_to_join.data[second_pk])
+            join_dataset, self.data[first_pk] == join_dataset[second_pk]
+        ).drop(join_dataset[second_pk])
         LOGGER.info(
             "Joining DataFrame %s to DataFrame %s on %s == %s",
-            dataset_to_join.data_frame_name,
+            join_dataset_name,
             self.data_frame_name,
             first_pk,
             second_pk,
@@ -110,7 +112,9 @@ class Data:
                 self.data.write.csv(
                     f"file://{master_path}/{path}", mode="overwrite", header=header
                 )
-                LOGGER.info("Writing DataFrame to file at ./client_data/")
+                LOGGER.info(
+                    "Writing DataFrame to file at %s", f"file://{master_path}/{path}"
+                )
             except IllegalArgumentException as error:
                 LOGGER.fatal(
                     "Cannot write DataFrame to file. Reason: %s",
