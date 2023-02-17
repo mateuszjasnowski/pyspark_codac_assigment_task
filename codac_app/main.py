@@ -128,7 +128,7 @@ def main() -> None:
         actions = json.load(instructions)
 
     # Execute instruction file
-    if actions["config"]:
+    if "config" in actions:
         session_config = actions["config"]
 
     # Get sessions master address
@@ -136,7 +136,7 @@ def main() -> None:
     if args.master:
         session_config = {"master": args.master, "name": "Local codac app"}
 
-    if not actions["config"] and not args.master:
+    if "config" not in actions and not args.master:
         raise ValueError(
             "Missing master pyspark session address.\n"
             + "Add config details in manual json file or\n"
@@ -144,16 +144,16 @@ def main() -> None:
             + "For details check instruction file's documentation."
         )
 
-    if actions["open"]:
+    open_actions = {}
+    if "open" in actions:
         open_actions = actions["open"]
 
-    if args.client_data and args.clients_cards:
-        open_actions = {
-            "client_data": {"path": args.client_data, "header": "true"},
-            "clients_cards": {"path": args.clients_cards, "header": "true"},
-        }
+    if args.client_data:
+        open_actions["client_data"] = {"path": args.client_data, "header": "true"}
+    if args.clients_cards:
+        open_actions["clients_cards"] = {"path": args.clients_cards, "header": "true"}
 
-    if not actions["open"] and not args.client_data and not args.clients_cards:
+    if "open" not in actions and not args.client_data and not args.clients_cards:
         raise ValueError(
             "Missing client_data or/and clients_cards!\n"
             + "Add object/s files in manual json file or\n"
@@ -164,6 +164,11 @@ def main() -> None:
     transform_action = None
     if "transform" in actions:
         transform_action = actions["transform"]
+
+        if args.country:
+            transform_action["filter"] = {"country": args.country}
+    elif args.country:
+        transform_action = {"filter": {"country": args.country}}
 
     join_actions = None
     if "join" in actions:
