@@ -8,7 +8,7 @@ setup(
     name="CodacApp",
     author="Mateusz Jasnowski",
     author_email="mateusz.jasnowski@capgemini.com",
-    version="1.2",
+    version="1.2.1",
     description="Application is combining two datasets with data filtering and modification.\
 PySpark application as upskilling task",
     packages=["codac_app", "codac_app.app"],

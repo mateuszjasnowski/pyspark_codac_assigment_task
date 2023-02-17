@@ -108,18 +108,34 @@ def main() -> None:
     # Read arguments
     parser = ArgumentParser()
     parser.add_argument(
-        "instruction_file", type=str, help="path to instruction file (.json)"
+        "instruction_file",
+        type=str,
+        help="Path to instruction file (.json). Details can be found in docs.",
     )
-    parser.add_argument("--client_data", type=str, help="client_data file path")
-    parser.add_argument("--clients_cards", type=str, help="clients_cards file path")
+    parser.add_argument(
+        "--client_data",
+        type=str,
+        help="Path to client_data file.\
+            Argument will replace given client_data path in instruction file.",
+    )
+    parser.add_argument(
+        "--clients_cards",
+        type=str,
+        help="Path to clients_cards file.\
+            Argument will replace given clients_cards path in instruction file.",
+    )
     parser.add_argument(
         "-c",
         "--country",
         action="append",
-        help="Filter by countries (Can be used multiple times)",
+        help="Filtering data by given country (Can be multiple times)",
     )
     parser.add_argument(
-        "-m", "--master", type=str, help="Spark session's master address"
+        "-m",
+        "--master",
+        type=str,
+        help="Spark session's master address.\
+            Argument will replace given master address in instruction file.",
     )
     args = parser.parse_args()
 

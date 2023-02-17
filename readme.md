@@ -50,7 +50,9 @@ pip install CodacApp-[...].whl
 
 Run app with command:
 ```python
-codac-app [-h] [-c COUNTRY] [-m MASTER] first_ds second_ds
+codac-app [-h] [--client_data CLIENT_DATA]
+               [--clients_cards CLIENTS_CARDS] [-c COUNTRY] [-m MASTER]
+               instruction_file
 ```
 
 App is reciving arguments in command line.
@@ -58,21 +60,26 @@ App is reciving arguments in command line.
 **Required arguments**
 Argument name | Type | Description
 --- | --- | ---
-first_ds | string | Path to first data set file
-second_ds | string | Path to second data set file
+instruction_file | string | Path to instruction file (.json). Details can be found in docs.
+
+**Instruction json file**
+
+Instructions file is required to run an app. Contains execution instruction for app to open, transform and save file. Example file and documentation can be found at [exec_instruction](exec_instuction/readme.md)
 
 **Not required arguments**
 Argument name | Type | Description
 --- | --- | ---
+-h (--help) | none | Show this help message and exit
+--client_data | string | Path to client_data file. Argument will replace given client_data path in instruction file.
+--clients_cards | string | Path to clients_cards file. Argument will replace given clients_cards path in instruction file.
 -c (--country) | string | Filtering data by given country (Can be multiple times)
--m (--master) | string | Spark session's master address
--h (--help) | empty | Display help menu
+-m (--master) | string | Spark session's master address. Argument will replace given master address in instruction file.
 
 **Data set files**
 
 Application is reciving two ```.csv``` files with specific schema.
 
-***1. First dataset***
+***1. client_data dataset***
 column name | data type | description
 --- | --- | ---
 id | integer | identification number of client
@@ -81,7 +88,7 @@ last_name | string | last name of client
 email | string | client's email
 country | string | client's country
 
-***2. Second dataset***
+***2. clients_cards dataset***
 column name | data type | description
 --- | --- | ---
 id | integer | identification number of client
