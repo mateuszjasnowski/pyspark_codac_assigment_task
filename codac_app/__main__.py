@@ -27,20 +27,24 @@ def run_instruction(
     - execute "join" instructions
     - execute "save" instructions
     """
-    LOGGER.info("==== Starting instructions executions ====")
-    LOGGER.info("Config: %s", session)
-    LOGGER.info("Open: %s", do_open)
-    LOGGER.info("Transform: %s", do_transform)
-    LOGGER.info("Join: %s", do_join)
-    LOGGER.info("Save: %s", do_save)
-    LOGGER.info("=================EXECUTING=================")
+    LOGGER.debug("==== Starting instructions executions ====")
+    LOGGER.debug("Config: %s", session)
+    LOGGER.debug("Open: %s", do_open)
+    LOGGER.debug("Transform: %s", do_transform)
+    LOGGER.debug("Join: %s", do_join)
+    LOGGER.debug("Save: %s", do_save)
+    LOGGER.debug("=================EXECUTING=================")
 
     with AppSession(master=session["master"], app_name=session["name"]) as sp_session:
+        # clients_data
+        LOGGER.info("Reading client_data file")
         client_data = Data(
             sp_session,
             do_open["client_data"]["path"],
             header=do_open["client_data"]["header"],
         )
+        # clients_cards
+        LOGGER.info("Reading clients_cards file")
         clients_cards = Data(
             sp_session,
             do_open["clients_cards"]["path"],
@@ -48,6 +52,8 @@ def run_instruction(
         )
 
         if do_transform:
+
+            LOGGER.info("Reading transform instructions")
             # apply filters
             for filter_key, filter_val in do_transform["filter"].items():
                 client_data.filter(filter_key, filter_val)
@@ -64,6 +70,8 @@ def run_instruction(
                 clients_cards.rename(column["from"], column["to"])
 
         if do_join:
+
+            LOGGER.info("Reading join instructions")
             client_data.join_data(
                 clients_cards.data,
                 clients_cards.data_frame_name,
@@ -72,8 +80,13 @@ def run_instruction(
             )
 
         if do_save:
+
+            LOGGER.info("Reading save instructions")
             client_data.save(
-                do_save["file_type"], do_save["path"], header=do_save["header"]
+                do_save["file_type"],
+                do_save["path"],
+                header=do_save["header"],
+                save_mode=do_save["mode"],
             )
 
 

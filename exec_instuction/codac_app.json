@@ -47,6 +47,7 @@
     "save": {
         "path": "./client_data/",
         "file_type": "csv",
-        "header": "true"
+        "header": "true",
+        "mode": "overwrite"
     }
 }

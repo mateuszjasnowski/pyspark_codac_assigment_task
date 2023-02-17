@@ -17,6 +17,7 @@ class Data:
         Create DataFrame object
         creates data parameters containing spark's DataFrame
         """
+        LOGGER.debug("Data.__init__")
         self.data = session.read.option("header", str(header).lower()).csv(file_path)
         self.data_frame_name = os.path.basename(file_path)
         self.session = session
@@ -30,6 +31,7 @@ class Data:
     def filter(self, column: str, match: list) -> None:
         """Filter DataFrame by column match to given value"""
 
+        LOGGER.debug("Data.filter")
         if column in self.data.columns:
             self.data = self.data.filter(self.data[column].isin(*match))
             LOGGER.info(
@@ -42,6 +44,7 @@ class Data:
     def drop_column(self, columns: list) -> None:
         """Dropping selected columns from DataFrame"""
 
+        LOGGER.debug("Data.drop_column")
         self.data = self.data.drop(*columns)
         LOGGER.info(
             "Dropping columns %s from DataFrame %s", str(columns), self.data_frame_name
@@ -56,6 +59,7 @@ class Data:
     ) -> None:
         """Join second DataFrame, method returns new Data object"""
 
+        LOGGER.debug("Data.join_data")
         self.data = self.data.join(
             join_dataset, self.data[first_pk] == join_dataset[second_pk]
         ).drop(join_dataset[second_pk])
@@ -70,6 +74,7 @@ class Data:
     def rename(self, old_col: str, new_col: str) -> None:
         """Rename column if exists in DataFrame"""
 
+        LOGGER.debug("Data.rename")
         if old_col in self.data.columns:
             columns = self.data.columns
             columns[columns.index(old_col)] = new_col
@@ -82,6 +87,7 @@ class Data:
     def rename_columns(self, new_columns: list) -> None:
         """Change name of all columns on DataFrame"""
 
+        LOGGER.debug("Data.rename_columns")
         current_columns = self.data.columns
 
         try:
@@ -96,27 +102,23 @@ class Data:
             LOGGER.warning("%s", error)
 
     def save(
-        self, file_format: str, path: str = "./client_data/", header: str = "true"
+        self,
+        file_format: str,
+        subfolder_path: str = "./client_data/",
+        header: str = "true",
+        save_mode: str = "overwrite",
     ) -> None:
         """
         Save DataFrame into new file
-        Format can be given as csv, parquet
-        #TODO refactor to use more variables
         """
-        master_path = os.path.abspath(os.getcwd())
 
-        header = header.lower() == "true"
+        LOGGER.debug("Data.save")
+        save_path = f"file://{os.path.abspath(os.getcwd())}/{subfolder_path}"
 
-        if file_format == "csv":
-            try:
-                self.data.write.csv(
-                    f"file://{master_path}/{path}", mode="overwrite", header=header
-                )
-                LOGGER.info(
-                    "Writing DataFrame to file at %s", f"file://{master_path}/{path}"
-                )
-            except IllegalArgumentException as error:
-                LOGGER.fatal(
-                    "Cannot write DataFrame to file. Reason: %s",
-                    f"{error.desc[:100]} [...]",
-                )
+        LOGGER.info("Saving %s file at location: %s", file_format, subfolder_path)
+
+        self.data.write.option("header", header).mode(save_mode).save(
+            save_path, format=file_format
+        )
+
+        LOGGER.info("File saved succesfully!")
