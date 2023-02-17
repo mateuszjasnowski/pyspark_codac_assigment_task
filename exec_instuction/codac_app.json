@@ -1,0 +1,53 @@
+{
+    "config": {
+        "master": "local",
+        "name": "Codac App"
+    },
+    "open": {
+        "client_data": {
+            "path": "./source_data/dataset_one.csv",
+            "header": "true"
+        },
+        "clients_cards": {
+            "path": "./source_data/dataset_two.csv",
+            "header": "true"
+        }
+    },
+    "transform": {
+        "filter": {
+            "country": [
+                "Netherlands",
+                "United Kingdom"
+            ]
+        },
+        "rename_columns": [
+            {
+                "from": "id",
+                "to": "client_identifier"
+            },
+            {
+                "from": "btc_a",
+                "to": "bitcoin_address"
+            },
+            {
+                "from": "cc_t",
+                "to": "credit_card_type"
+            }
+        ],
+        "drop_columns": [
+            "first_name",
+            "last_name",
+            "cc_n"
+        ]
+    },
+    "join": {
+        "master": "client_identifier",
+        "joining": "client_identifier"
+    },
+    "save": {
+        "path": "./client_data/",
+        "file_type": "csv",
+        "header": "true",
+        "mode": "overwrite"
+    }
+}
