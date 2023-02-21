@@ -4,5 +4,5 @@ pip >= 23.0
 pylint == 2.15.10
 pyspark == 3.3.1
 pytest == 7.2.1
-setuptools == 47.1.0
+setuptools == 65.5.1
 wheel == 0.38.4
