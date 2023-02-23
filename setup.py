@@ -14,6 +14,6 @@ PySpark application as upskilling task",
     packages=["codac_app", "codac_app.app"],
     install_requires=requirements,
     entry_points={
-        "console_scripts": ["codac-app=codac_app.main:__main__"],
+        "console_scripts": ["codac-app=codac_app.__main__:main"],
     },
 )
