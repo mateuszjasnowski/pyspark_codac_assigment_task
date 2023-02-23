@@ -3,13 +3,12 @@ App initial file
 """
 import logging
 import os
-import json
 
 from logging.handlers import RotatingFileHandler
 
 # logging settings
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)  # TODO change to INFO if DEBUG not needed
+LOGGER.setLevel(logging.INFO)
 
 _log_formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
 _LOG_PATH = "./codac_app/logs/codac_assigment_log.log"
